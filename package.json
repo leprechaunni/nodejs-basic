@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-basic",
+  "version": "1.0.0",
+  "description": "nodejs practical basic course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leprechaunni/nodejs-basic.git"
+  },
+  "keywords": [
+    "nodejs",
+    "js"
+  ],
+  "author": "mv <e@mail.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leprechaunni/nodejs-basic/issues"
+  },
+  "homepage": "https://github.com/leprechaunni/nodejs-basic#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
