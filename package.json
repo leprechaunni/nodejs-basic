@@ -4,7 +4,7 @@
   "description": "nodejs practical basic course",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.js", 
     "dev": "nodemon index.js"
   },
   "repository": {

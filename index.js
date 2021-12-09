@@ -1,25 +1,67 @@
 const http = require('http');
-//помогает создать и настроить работу серверов
+const path = require('path');
+const fs = require('fs');
 
-//передаем функцию, к-я будет выполнена при происхождении на сервере определенных запросов (handler)
-//принимает в себя request (запрос на сервер), response (ответ сервера)
 const server = http.createServer((req, res) => {
-   console.log(req.url);
+   if (req.method === 'GET') {
+      //статус ответа (200 если все ок)
+      //объект - ключ значения хедеров
+      res.writeHead(200, {
+         'Content-Type': 'text/html; charset=utf-8',
+      });
 
-   res.write('<h1>Hello bby</h1>')
-   res.write('<h2>Hello bby</h2>')
-   res.write('<h3>Hello bby</h3>')
-   //res.end() //необходимо закрыть 
-   res.end(`
-      <div style="background: red; width: 200px; height: 200px;">
-         <h1>Test</h1>
-      </div>
-   `)
+      if (req.url === '/') {
+         fs.readFile(
+            path.join(__dirname, 'views', 'index.html'),
+            'utf-8',
+            (err, content) => {
+               if (err) throw err;
+
+               res.end(content);
+            }
+         );
+      } else if (req.url === '/about') {
+         fs.readFile(
+            path.join(__dirname, 'views', 'about.html'),
+            'utf-8',
+            (err, content) => {
+               if (err) throw err;
+
+               res.end(content);
+            }
+         );
+      } else if (req.url === '/api/users') {
+         res.writeHead(200, {
+            'Content-Type': 'text/json; charset=utf-8',
+         });
+
+         const users = [
+            { name: 'Vlad', age: 25 },
+            { name: 'Elena', age: 20 },
+         ];
+
+         res.end(JSON.stringify(users));
+      }
+   } else if (req.method === 'POST') {
+      const body = [];
+      res.writeHead(200, {
+         'Content-Type': 'text/html; charset=utf-8',
+      });
+
+      req.on('data', (data) => {
+         body.push(Buffer.from(data));
+      });
+
+      req.on('end', () => {
+         const message = body.toString().split('=')[1];
+
+         res.end(`
+            <h1>Ваше message: ${message}</h1>
+         `);
+      });
+   }
 });
 
-//запускаем данный сервер
-//порт, на к-м хотим запустить
-//коллбэк ф-я, к-я будет выполнена, когда сервер запущен
 server.listen(3000, () => {
    console.log('Server is running...');
 });
